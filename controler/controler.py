@@ -30,7 +30,7 @@ def validate_transaction(transaction: Dict[str, Any]) -> bool:
     return True
 
 @app.route('/transacao', methods=['POST'])
-def post_transacao():
+def post_transactions():
     data = request.get_json()
 
     if not data:
@@ -45,6 +45,16 @@ def post_transacao():
         trService.save_transaction(data)
         return "", 201
 
+    except Exception as e:
+        print(e)
+        return "", 500
+
+@app.route('/transacao', methods=['DELETE'])
+def delete_transactions():
+    try:
+        trService.clear_transactions()
+        return "", 200
+    
     except Exception as e:
         print(e)
         return "", 500
