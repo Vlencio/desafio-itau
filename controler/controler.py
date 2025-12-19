@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from datetime import datetime, timezone, timedelta
 from services.transactionService import TransactionService
 from typing import Dict, Any
+import json
 
 app = Flask(__name__)
 
@@ -55,6 +56,16 @@ def delete_transactions():
         trService.clear_transactions()
         return "", 200
     
+    except Exception as e:
+        print(e)
+        return "", 500
+
+@app.route('/estatistica', methods=['GET'])
+def get_statistics():
+    try:
+        statistics = trService.get_statistics()
+        return jsonify(json.dumps(statistics)), 200
+
     except Exception as e:
         print(e)
         return "", 500
